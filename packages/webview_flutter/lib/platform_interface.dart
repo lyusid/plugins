@@ -186,6 +186,7 @@ class WebSettings {
 class CreationParams {
   CreationParams(
       {this.initialUrl,
+      this.hostUrl,
       this.cookies,
       this.webSettings,
       this.javascriptChannelNames});
@@ -194,6 +195,8 @@ class CreationParams {
   ///
   /// When null the webview will be created without loading any page.
   final String initialUrl;
+
+  final String hostUrl;
 
   final List<String> cookies;
 
@@ -217,7 +220,7 @@ class CreationParams {
 
   @override
   String toString() {
-    return '$runtimeType(initialUrl: $initialUrl,cookies: $cookies, settings: $webSettings, javascriptChannelNames: $javascriptChannelNames)';
+    return '$runtimeType(initialUrl: $initialUrl,hostUrl: $hostUrl,cookies: $cookies, settings: $webSettings, javascriptChannelNames: $javascriptChannelNames)';
   }
 }
 

@@ -115,6 +115,7 @@ class WebView extends StatefulWidget {
     Key key,
     this.onWebViewCreated,
     this.initialUrl,
+    this.hostUrl,
     this.cookies,
     this.javascriptMode = JavascriptMode.disabled,
     this.javascriptChannels,
@@ -174,6 +175,8 @@ class WebView extends StatefulWidget {
 
   /// The initial URL to load.
   final String initialUrl;
+
+  final String hostUrl;
 
   final List<String> cookies;
 
@@ -318,6 +321,7 @@ class _WebViewState extends State<WebView> {
 CreationParams _creationParamsfromWidget(WebView widget) {
   return CreationParams(
     initialUrl: widget.initialUrl,
+    hostUrl: widget.hostUrl,
     cookies: widget.cookies,
     webSettings: _webSettingsFromWidget(widget),
     javascriptChannelNames: _extractChannelNames(widget.javascriptChannels),
