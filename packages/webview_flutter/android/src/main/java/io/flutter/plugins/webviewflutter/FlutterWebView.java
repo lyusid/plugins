@@ -12,6 +12,11 @@ import android.view.View;
 import android.webkit.WebStorage;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
+import android.webkit.CookieManager;
+import android.os.Build;
+import android.util.Log;
+import java.util.List;
+
 import io.flutter.plugin.common.BinaryMessenger;
 import io.flutter.plugin.common.MethodCall;
 import io.flutter.plugin.common.MethodChannel;
@@ -45,11 +50,32 @@ public class FlutterWebView implements PlatformView, MethodCallHandler {
     if (params.containsKey(JS_CHANNEL_NAMES_FIELD)) {
       registerJavaScriptChannelNames((List<String>) params.get(JS_CHANNEL_NAMES_FIELD));
     }
-
+    String url = "";
     if (params.containsKey("initialUrl")) {
-      String url = (String) params.get("initialUrl");
-      webView.loadUrl(url);
+      url = (String) params.get("initialUrl");
     }
+    if (params.containsKey("cookies")) {
+      CookieManager cookieManager = CookieManager.getInstance();
+      cookieManager.setAcceptCookie(true);
+      cookieManager.removeAllCookie();
+      if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB_MR1) {
+        CookieManager.setAcceptFileSchemeCookies(true);
+      }
+      if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+        cookieManager.removeSessionCookies(null);
+        cookieManager.setAcceptThirdPartyCookies(webView, true);
+      }
+      List<String> cookies = (List<String>) params.get("cookies");
+
+      for (String cookie : cookies) {
+        cookieManager.setCookie(url, cookie);
+      }
+      if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+        cookieManager.flush();
+      }
+    }
+
+    webView.loadUrl(url);
   }
 
   @Override

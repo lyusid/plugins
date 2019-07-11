@@ -185,12 +185,17 @@ class WebSettings {
 /// Configuration to use when creating a new [WebViewPlatformController].
 class CreationParams {
   CreationParams(
-      {this.initialUrl, this.webSettings, this.javascriptChannelNames});
+      {this.initialUrl,
+      this.cookies,
+      this.webSettings,
+      this.javascriptChannelNames});
 
   /// The initialUrl to load in the webview.
   ///
   /// When null the webview will be created without loading any page.
   final String initialUrl;
+
+  final List<String> cookies;
 
   /// The initial [WebSettings] for the new webview.
   ///
@@ -212,7 +217,7 @@ class CreationParams {
 
   @override
   String toString() {
-    return '$runtimeType(initialUrl: $initialUrl, settings: $webSettings, javascriptChannelNames: $javascriptChannelNames)';
+    return '$runtimeType(initialUrl: $initialUrl,cookies: $cookies, settings: $webSettings, javascriptChannelNames: $javascriptChannelNames)';
   }
 }
 
