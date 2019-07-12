@@ -52,6 +52,11 @@ public class FlutterWebView implements PlatformView, MethodCallHandler {
     }
 
     if (params.containsKey("cookies") && params.containsKey("hostUrl")) {
+        String hostUrl = (String) params.get("hostUrl");
+        List<String> cookies = (List<String>) params.get("cookies");
+        if (hostUrl == null||cookies == null){
+            return;
+        }
       CookieManager cookieManager = CookieManager.getInstance();
       cookieManager.setAcceptCookie(true);
       cookieManager.removeAllCookie();
@@ -61,11 +66,6 @@ public class FlutterWebView implements PlatformView, MethodCallHandler {
       if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
         cookieManager.removeSessionCookies(null);
         cookieManager.setAcceptThirdPartyCookies(webView, true);
-      }
-      String hostUrl = (String) params.get("hostUrl");
-      List<String> cookies = (List<String>) params.get("cookies");
-      if (hostUrl == null){
-        return;
       }
       for (String cookie : cookies) {
         cookieManager.setCookie(hostUrl, cookie);
